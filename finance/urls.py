@@ -1,9 +1,11 @@
-from django.urls import path
-from .views import CategoryListCreateView, TransactionListCreateView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import CategoryViewSet, TransactionViewSet
+
+router = DefaultRouter()
+router.register(r'categories', CategoryViewSet, basename='category')
+router.register(r'transactions', TransactionViewSet, basename='transaction')
 
 urlpatterns = [
-    path('categories/', CategoryListCreateView.as_view()),  # Создание и получение категорий
-    path('categories/<int:pk>/', CategoryListCreateView.as_view()),  # Редактирование и удаление категории
-    path('transactions/', TransactionListCreateView.as_view()),  # Создание и получение транзакций
-    path('transactions/<int:pk>/', TransactionListCreateView.as_view()),  # Редактирование и удаление транзакции
+    path('', include(router.urls)),
 ]
